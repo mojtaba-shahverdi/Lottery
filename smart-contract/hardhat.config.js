@@ -38,4 +38,18 @@ module.exports = {
       default: 1,
     },
   },
+  etherscan: {
+    apiKey: ETHERSCAN_API_KEY,
+    // customChains: [], // uncomment this line if you are getting a TypeError: customChains is not iterable
+  },
+  gasReporter: {
+    enabled: false,
+    currency: 'USD',
+    outputFile: 'gas-report.txt',
+    noColors: true,
+    // coinmarketcap: COINMARKETCAP_API_KEY,
+  },
+  mocha: {
+    timeout: 300000,
+  },
 }
