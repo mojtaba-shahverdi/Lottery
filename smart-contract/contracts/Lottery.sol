@@ -5,7 +5,7 @@ import '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol';
 
-error Lottery__NoETHEntered();
+error Lottery__NotEnoughETHEntered();
 error Lottery__TransferFailed();
 error Lottery__NotOpen();
 error Lottery__UpKeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256 lotteryState);
@@ -64,13 +64,12 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
   function enterLottery() public payable {
     if (msg.value < i_entranceFee) {
-      revert Lottery__NoETHEntered();
+      revert Lottery__NotEnoughETHEntered();
     }
     if (s_lotteryState != LotteryState.OPEN) {
       revert Lottery__NotOpen();
     }
     s_players.push(payable(msg.sender));
-
     emit LotteryEnter(msg.sender);
   }
 
@@ -155,5 +154,9 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
   function getRequestConfirmations() public pure returns (uint256) {
     return REQUEST_CONFIRMATION;
+  }
+
+  function getInterval() public view returns (uint256) {
+    return i_interval;
   }
 }
