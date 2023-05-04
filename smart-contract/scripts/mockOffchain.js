@@ -1,7 +1,7 @@
 const { ethers, network } = require('hardhat')
 
 async function mockKeepers() {
-  const lottery = await ethers.getContract('VRFCoordinatorV2Mock')
+  const lottery = await ethers.getContract('Lottery')
   const checkData = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(''))
   const { upkeepNeeded } = await lottery.callStatic.checkUpkeep(checkData)
   if (upkeepNeeded) {
